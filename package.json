@@ -10,6 +10,7 @@
     "node-sass": "^4.12.0"
   },
   "scripts": {
+    "build": "node-sass src/_index.scss dist/bundle.css",
     "tocs": "doctoc . --github"
   }
 }
