@@ -1,6 +1,6 @@
 # Hucssley classes
 
-Hucssley provides over 110 classes out-of-the-box, which have been sensibly pre-configured to get up and running, fast. Some are placeholders with empty variables for more complex things, like `box-shadow`, `grid` and `transform` that either don't map 1:1 to a property/value pair, and/or are more likely unable to be standardised to suit your project.
+Hucssley provides over 120 classes out-of-the-box, which have been sensibly pre-configured to get up and running, fast. Some are placeholders with empty variables for more complex things, like `box-shadow`, `grid` and `transform` that either don't map 1:1 to a property/value pair, and/or are more likely unable to be standardised to suit your project.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -29,14 +29,15 @@ Hucssley provides over 110 classes out-of-the-box, which have been sensibly pre-
   - [hu-animation-name](#hu-animation-name)
   - [hu-animation-state](#hu-animation-state)
   - [hu-appearance](#hu-appearance)
+  - [hu-backdrop-filter](#hu-backdrop-filter)
   - [hu-backface-visibility](#hu-backface-visibility)
+  - [hu-background-blend-mode](#hu-background-blend-mode)
   - [hu-background-color](#hu-background-color)
   - [hu-background-image](#hu-background-image)
   - [hu-background-position-x](#hu-background-position-x)
   - [hu-background-position-y](#hu-background-position-y)
   - [hu-background-repeat](#hu-background-repeat)
   - [hu-background-size](#hu-background-size)
-  - [hu-blend-mode](#hu-blend-mode)
   - [hu-border-collapse](#hu-border-collapse)
   - [hu-border-color](#hu-border-color)
   - [hu-border-radius](#hu-border-radius)
@@ -81,6 +82,7 @@ Hucssley provides over 110 classes out-of-the-box, which have been sensibly pre-
   - [hu-grid-template-columns](#hu-grid-template-columns)
   - [hu-grid-template-rows](#hu-grid-template-rows)
   - [hu-height](#hu-height)
+  - [hu-hyphens](#hu-hyphens)
   - [hu-justify-content](#hu-justify-content)
   - [hu-justify-items](#hu-justify-items)
   - [hu-justify-self](#hu-justify-self)
@@ -93,12 +95,14 @@ Hucssley provides over 110 classes out-of-the-box, which have been sensibly pre-
   - [hu-max-width](#hu-max-width)
   - [hu-min-height](#hu-min-height)
   - [hu-min-width](#hu-min-width)
+  - [hu-mix-blend-mode](#hu-mix-blend-mode)
   - [hu-momentum-scrolling](#hu-momentum-scrolling)
   - [hu-object-fit](#hu-object-fit)
   - [hu-opacity](#hu-opacity)
   - [hu-order](#hu-order)
   - [hu-outline](#hu-outline)
   - [hu-overflow](#hu-overflow)
+  - [hu-overflow-wrap](#hu-overflow-wrap)
   - [hu-overflow-x](#hu-overflow-x)
   - [hu-overflow-y](#hu-overflow-y)
   - [hu-overscroll-behavior](#hu-overscroll-behavior)
@@ -106,6 +110,7 @@ Hucssley provides over 110 classes out-of-the-box, which have been sensibly pre-
   - [hu-pointer-events](#hu-pointer-events)
   - [hu-pos](#hu-pos)
   - [hu-position](#hu-position)
+  - [hu-resize](#hu-resize)
   - [hu-rotate](#hu-rotate)
   - [hu-scale](#hu-scale)
   - [hu-scroll-behavior](#hu-scroll-behavior)
@@ -135,6 +140,8 @@ Hucssley provides over 110 classes out-of-the-box, which have been sensibly pre-
   - [hu-visually-hidden](#hu-visually-hidden)
   - [hu-white-space](#hu-white-space)
   - [hu-width](#hu-width)
+  - [hu-word-break](#hu-word-break)
+  - [hu-word-wrap](#hu-word-wrap)
   - [hu-z-index](#hu-z-index)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -314,13 +321,13 @@ animation-count -> animation-iteration-count
 animation-easing -> animation-timing-function
 animation-mode -> animation-fill-mode
 animation-state -> animation-play-state
-blend-mode -> mix-blend-mode
 border-radius-[side] -> border-[side]-radius
-content -> :[pseudo]-content
+content -> ::[pseudo]-content
 momentum-scrolling -> -webkit-overflow-scrolling
 pos-[bottom,left,right,top] -> bottom,left,right,top
 rotate -> transform: rotate
 scale -> transform: scale
+size -> height & width
 svg-fill-color -> fill
 svg-fill-rule -> fill-rule
 svg-stroke-color -> stroke
@@ -466,9 +473,11 @@ animation-count -> animation-iteration-count
 ```scss
 $hu-animation-count-alias: animation-count;
 
-$hu-animation-count-modules: ();
+$hu-animation-count-modules: (base);
 
-$hu-animation-count-types: ();
+$hu-animation-count-types: (
+  infinite,
+);
 ```
 
 ### hu-animation-delay
@@ -513,9 +522,9 @@ animation-easing -> animation-timing-function
 ```
 
 ```scss
-$hu-animation-easing-alias: animation-easing ;
+$hu-animation-easing-alias: animation-easing;
 
-$hu-animation-easing-modules: ();
+$hu-animation-easing-modules: (base);
 
 $hu-animation-easing-types: (
   ease: ease,
@@ -612,6 +621,16 @@ $hu-appearance-types: (
 );
 ```
 
+### hu-backdrop-filter
+
+```scss
+$hu-backdrop-filter-alias: "";
+
+$hu-backdrop-filter-modules: ();
+
+$hu-backdrop-filter-types: ();
+```
+
 ### hu-backface-visibility
 
 ```scss
@@ -633,6 +652,33 @@ $hu-background-color-alias: "";
 $hu-background-color-modules: (base, visited, hocus, active, group-hocus, group-state, state);
 
 $hu-background-color-types: $hu-colors;
+```
+
+### hu-background-blend-mode
+
+```scss
+$hu-background-blend-mode-alias: "";
+
+$hu-background-blend-mode-modules: ();
+
+$hu-background-blend-mode-types: (
+  color,
+  color-burn,
+  color-dodge,
+  darken,
+  difference,
+  exclusion,
+  hard-light,
+  hue,
+  lighten,
+  luminosity,
+  multiply,
+  normal,
+  overlay,
+  saturation,
+  screen,
+  soft-light,
+);
 ```
 
 ### hu-background-image
@@ -701,33 +747,6 @@ $hu-background-size-types: (
   auto,
   contain,
   cover,
-);
-```
-
-### hu-blend-mode
-
-```scss
-$hu-blend-mode-alias: blend-mode;
-
-$hu-blend-mode-modules: (base);
-
-$hu-blend-mode-types: (
-  color,
-  color-burn,
-  color-dodge,
-  darken,
-  difference,
-  exclusion,
-  hard-light,
-  hue,
-  lighten,
-  luminosity,
-  multiply,
-  normal,
-  overlay,
-  saturation,
-  screen,
-  soft-light,
 );
 ```
 
@@ -858,7 +877,7 @@ $hu-columns-types: ();
 ### hu-content
 
 ```
-content -> :[pseudo]-content
+content -> ::[pseudo]-content
 ```
 
 ```scss
@@ -867,7 +886,7 @@ $hu-content-alias: "";
 $hu-content-modules: (base);
 
 $hu-content-pseudos: (
-  "::after", 
+  "::after",
   "::before"
 );
 
@@ -932,9 +951,11 @@ $hu-flex-types: ();
 ```scss
 $hu-flex-basis-alias: "";
 
-$hu-flex-basis-modules: ();
+$hu-flex-basis-modules: (base);
 
-$hu-flex-basis-types: ();
+$hu-flex-basis-types: (
+  0
+);
 ```
 
 ### hu-flex-direction
@@ -1009,9 +1030,13 @@ $hu-flex-wrap-types: (
 ```scss
 $hu-float-alias: "";
 
-$hu-float-modules: ();
+$hu-float-modules: (base);
 
-$hu-float-types: ();
+$hu-float-types: (
+  left,
+  none,
+  right,
+);
 ```
 
 ### hu-font-family
@@ -1283,10 +1308,24 @@ $hu-height-alias: "";
 $hu-height-modules: (base, print, responsive);
 
 $hu-height-types: (
-  0: 0,
-  100: 100%,
-  100vh: 100vh,
-  auto: auto,
+  0,
+  100%,
+  100vh,
+  auto,
+);
+```
+
+### hu-hyphens
+
+```scss
+$hu-hyphens-alias: "";
+
+$hu-hyphens-modules: (base);
+
+$hu-hyphens-types: (
+  auto,
+  manual,
+  none,
 );
 ```
 
@@ -1458,7 +1497,7 @@ $hu-max-width-alias: "";
 $hu-max-width-modules: (base, responsive);
 
 $hu-max-width-types: (
-  100: 100%,
+  100%,
 );
 ```
 
@@ -1470,10 +1509,10 @@ $hu-min-height-alias: "";
 $hu-min-height-modules: (base);
 
 $hu-min-height-types: (
-  0: 0,
-  100: 100%,
-  100vh: 100vh,
-  none: none,
+  0,
+  100%,
+  100vh,
+  none,
 );
 ```
 
@@ -1485,10 +1524,37 @@ $hu-min-width-alias: "";
 $hu-min-width-modules: (base, responsive);
 
 $hu-min-width-types: (
-  0: 0,
-  100: 100%,
-  100vw: 100vw,
-  none: none,
+  0,
+  100%,
+  100vw,
+  none,
+);
+```
+
+### hu-mix-blend-mode
+
+```scss
+$hu-mix-blend-mode-alias: "";
+
+$hu-mix-blend-mode-modules: ();
+
+$hu-mix-blend-mode-types: (
+  color,
+  color-burn,
+  color-dodge,
+  darken,
+  difference,
+  exclusion,
+  hard-light,
+  hue,
+  lighten,
+  luminosity,
+  multiply,
+  normal,
+  overlay,
+  saturation,
+  screen,
+  soft-light,
 );
 ```
 
@@ -1593,6 +1659,20 @@ $hu-overflow-types: (
 );
 ```
 
+### hu-overflow-wrap
+
+```scss
+$hu-overflow-wrap-alias: "";
+
+$hu-overflow-wrap-modules: (base);
+
+$hu-overflow-wrap-types: (
+  anywhere,
+  break-word,
+  normal,
+);
+```
+
 ### hu-overflow-x
 
 ```scss
@@ -1666,10 +1746,10 @@ pos -> bottom, left, right, top
 $hu-pos-modules: (base, group-state, responsive, state);
 
 $hu-pos-scale: (
-  0: 0,
-  50: 50%,
-  100: 100%,
-  auto: auto,
+  0,
+  50%,
+  100%,
+  auto,
 );
 
 $hu-pos-types: (
@@ -1698,6 +1778,21 @@ $hu-position-types: (
   relative,
   static,
   sticky,
+);
+```
+
+### hu-resize
+
+```
+$hu-resize-alias: "";
+
+$hu-resize-modules: (base);
+
+$hu-resize-types: (
+  both,
+  horizontal,
+  none,
+  vertical,
 );
 ```
 
@@ -2041,11 +2136,11 @@ $hu-translate-x-alias: translate-x;
 $hu-translate-x-modules: (base);
 
 $hu-translate-x-types: (
-  -100: -100%,
-  -50: -50%,
-  0: 0,
-  50: 50%,
-  100: 100%,
+  -100%,
+  -50%,
+  0,
+  50%,
+  100%,
 );
 ```
 
@@ -2155,24 +2250,53 @@ $hu-width-modules: (base, print, responsive);
 
 $hu-width-types: (
   0: 0,
-  5: 5%,
-  10: 10%,
-  16: 16.66667%,
-  20: 20%,
-  25: 25%,
-  30: 30%,
-  33: 33.33333%,
-  40: 40%,
-  50: 50%,
-  60: 60%,
-  70: 70%,
-  75: 75%,
-  80: 80%,
-  83: 83.33333%,
-  90: 90%,
-  100: 100%,
+  5%: 5%,
+  10%: 10%,
+  16.6%: 16.66667%,
+  20%: 20%,
+  25%: 25%,
+  30%: 30%,
+  33.3%: 33.33333%,
+  40%: 40%,
+  50%: 50%,
+  60%: 60%,
+  66.6%: 66.66666%,
+  70%: 70%,
+  75%: 75%,
+  80%: 80%,
+  83.3%: 83.33333%,
+  90%: 90%,
+  100%: 100%,
   100vw: 100vw,
   auto: auto,
+);
+```
+
+### hu-word-break
+
+```scss
+$hu-word-break-alias: "";
+
+$hu-word-break-modules: (base);
+
+$hu-word-break-types: (
+  break-all,
+  break-word,
+  keep-all,
+  normal,
+);
+```
+
+### hu-word-wrap
+
+```scss
+$hu-word-wrap-alias: "";
+
+$hu-word-wrap-modules: (base);
+
+$hu-word-wrap-types: (
+  break-word,
+  normal,
 );
 ```
 

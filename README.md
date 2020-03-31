@@ -24,6 +24,7 @@ To understand the reasoning behind its creation, please read [Rethinking CSS](/r
 - [A working example](#a-working-example)
 - [Why Hucssley?](#why-hucssley)
 - [Installation](#installation)
+- [Upgrading](#upgrading)
 - [Modules](#modules)
   - [Base: `base`](#base-base)
     - [Non-parent modules: `visited, focus, hocus, hover, active, print, reduced-motion, responsive`](#non-parent-modules-visited-focus-hocus-hover-active-print-reduced-motion-responsive)
@@ -92,7 +93,7 @@ To understand the reasoning behind its creation, please read [Rethinking CSS](/r
 
 ## What’s in the box?
 
-Currently, Hucssley provides utility classes for over 110 CSS properties, of which multiple, sensible default values are generated. Each utility is also created for various “modules”, whether that’s at certain media queries, UI states, user interactions, for print or more.
+Currently, Hucssley provides utility classes for over 120 CSS properties, of which multiple, sensible default values are generated. Each utility is also created for various “modules”, whether that’s at certain media queries, UI states, user interactions, for print or more.
 
 Each utility is completely customizable; they can be partially renamed, have values changed, have their modules altered or be omitted entirely.
 
@@ -145,11 +146,11 @@ The following example demonstrates how you can use Hucssley out-of-the-box to ea
         border-style:solid
         border-width:200
         margin-bottom:400
-        width:50
-        @mq-600--width:30
+        width:50%
+        @mq-600--width:30%
         @mq-768--margin-bottom:0
         @mq-768--margin-right:500
-        @mq-768--width:20
+        @mq-768--width:20%
       "
       src="https://hireup.cdn.prismic.io/hireup/89e15301c28e6396927d85e38e9c5d5833ebab09_kyle_357-bonnie.png"
     />
@@ -217,6 +218,12 @@ While Hucssley is still in early development, it has not been published to npm. 
 npm install github:stowball/hucssley#master
 ```
 
+or
+
+```sh
+yarn add github:stowball/hucssley#master
+```
+
 If you want to use Hucssley as it comes, then it’s as simple as:
 
 ```scss
@@ -248,6 +255,14 @@ However, if you want to customize Hucssley, we recommend taking this approach:
 ```scss
 @import "~hucssley/src/index";
 ```
+
+## Upgrading
+
+During this alpha period, if you wish to upgrade Hucssley and you use npm, it’s as simple as re-running `npm install github:stowball/hucssley#master` in your terminal.
+
+However, if you use yarn (tested on v1), re-running `yarn add github:stowball/hucssley#master` won't automatically update the files in your project unless you also explicitly run `yarn upgrade hucssley`.
+
+We recommend adding this command to a set-and-forget [`postinstall` script](https://docs.npmjs.com/misc/scripts) in your package.json to not be troubled with this issue going forward.
 
 ---
 
@@ -282,7 +297,7 @@ animation-count -> animation-iteration-count
 animation-easing -> animation-timing-function
 animation-mode -> animation-fill-mode
 animation-state -> animation-play-state
-blend-mode -> mix-blend-mode
+content -> ::[pseudo]-content
 momentum-scrolling -> -webkit-overflow-scrolling
 pos-[bottom,left,right,top] -> bottom,left,right,top
 rotate -> transform: rotate
@@ -680,7 +695,7 @@ $hu-media-queries: (
 
 If the value of an `$hu-media-queries` key is a number, it will compile it to a `(min-width: [value])` media query.
 
-If, however, you provide a map with any of the following keys: `min-h`, `max-h`, `min-w`, `max-w`, and `orientation`, then appropriate `(min-height)`, `(max-height)`, `(min-width)`, `(max-width)` and `(orientation)` media queries will be output.
+If, however, you provide a map with any of the following keys: `min-height`, `max-height`, `min-width`, `max-width`, and `orientation`, then appropriate `(min-height)`, `(max-height)`, `(min-width)`, `(max-width)` and `(orientation)` media queries will be output.
 
 Another special `other` key is also supported, which, when supplied with a map of key/value pairs will also output those as media query conditions, which will allow you to target every kind of [feature](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries#Media_features).
 
@@ -691,19 +706,19 @@ To demonstrate:
 ```scss
 $hu-media-queries: (
   600: hu-em(600),
-  min-h-200: (min-h: hu-em(200)),
-  max-h-400: (max-h: hu-em(400)),
-  min-w-300: (min-w: hu-em(300)),
-  max-w-500: (max-w: hu-em(500)),
-  min-w-300-max-w-500: (min-w: hu-em(300), max-w: hu-em(500)),
+  min-h-200: (min-height: hu-em(200)),
+  max-h-400: (max-height: hu-em(400)),
+  min-w-300: (min-width: hu-em(300)),
+  max-w-500: (max-width: hu-em(500)),
+  min-w-300-max-w-500: (min-width: hu-em(300), max-width: hu-em(500)),
   landscape: (orientation: landscape),
   coarse: (other: (pointer: coarse)),
   min-res-200: (other: (min-resolution: 200dpi)),
   all: (
-    min-h: hu-em(200),
-    max-h: hu-em(400),
-    min-w: hu-em(300),
-    max-w: hu-em(500),
+    min-height: hu-em(200),
+    max-height: hu-em(400),
+    min-width: hu-em(300),
+    max-width: hu-em(500),
     orientation: landscape,
     other: (pointer: coarse, min-resolution: 200dpi)
   ),
@@ -920,7 +935,7 @@ $hu-namespace: `hu-`;
 …
 .@mq-480--hu-flex-direction:column {}
 …
-.group__is-open--hu-display:flex {}
+.group-is-open__hu-display:flex {}
 ```
 
 #### Use important: `$hu-use-important`
@@ -1103,7 +1118,7 @@ By not proving a `$type` and passing in a `@content` block, you can create “on
 You could also use this technique to add complex `@supports` feature queries:
 
 ```scss
-@include hu-classes("@supports-blend-mode:multiply", (base)) {
+@include hu-classes("@supports-mix-blend-mode:multiply", (base)) {
   @supports (mix-blend-mode: multiply) {
     mix-blend-mode: multiply;
     opacity: 1;
@@ -1112,7 +1127,7 @@ You could also use this technique to add complex `@supports` feature queries:
 
 /* ->
 @supports (mix-blend-mode: multiply) {
-  .@supports-blend-mode:multiply {
+  .@supports-mix-blend-mode:multiply {
     mix-blend-mode: multiply;
     opacity: 1;
   }
@@ -1124,8 +1139,8 @@ Of course, just because you can’t provide a `$type` argument to the mixin, it 
 
 ```scss
 // if $types was a map, also extract the $value variable and use that in the mixin's @content
-@each $type in $hu-blend-mode-types {
-  @include hu-classes("@supports-blend-mode:#{$type}", $hu-blend-mode-modules) {
+@each $type in $hu-mix-blend-mode-types {
+  @include hu-classes("@supports-mix-blend-mode:#{$type}", $hu-mix-blend-mode-modules) {
     @supports (mix-blend-mode: #{$type}) {
       mix-blend-mode: $type;
     }
@@ -1134,13 +1149,13 @@ Of course, just because you can’t provide a `$type` argument to the mixin, it 
 
 /* ->
 @supports (mix-blend-mode: color) {
-  .@supports-blend-mode:color {
+  .@supports-mix-blend-mode:color {
     mix-blend-mode: color;
   }
 }
 
 @supports (mix-blend-mode: color-burn) {
-  .@supports-blend-mode:color-burn {
+  .@supports-mix-blend-mode:color-burn {
     mix-blend-mode: color-burn;
   }
 }
@@ -1169,7 +1184,7 @@ $hu-display-modules: (
 /* ->
 …
 
-.&:before--display:block::before {
+.&::before--display:block::before {
   display: block;
 }
 
@@ -1180,7 +1195,7 @@ $hu-display-modules: (
 …
 
 @media (min-width: 22.5em) {
-  .@mq-480:before--display:block::before {
+  .@mq-480::before--display:block::before {
     display: block;
   }
 
@@ -1244,7 +1259,7 @@ This mixin is a wrapper around two other mixins, `hu-pseudo-generic-classes()` a
 @include hu-pseudo-classes(display, ("::before", ":first-child"), $hu-display-modules, $hu-display-types);
 
 /* ->
-.&:before--display:block::before {
+.&::before--display:block::before {
   display: block;
 }
 
@@ -1252,7 +1267,7 @@ This mixin is a wrapper around two other mixins, `hu-pseudo-generic-classes()` a
   display: block;
 }
 
-.&:before--display:flex::before {
+.&::before--display:flex::before {
   display: flex;
 }
 
@@ -1263,7 +1278,7 @@ This mixin is a wrapper around two other mixins, `hu-pseudo-generic-classes()` a
 …
 
 @media (min-width: 22.5em) {
-  .@mq-480:before--display:block::before {
+  .@mq-480::before--display:block::before {
     display: block;
   }
 
@@ -1271,7 +1286,7 @@ This mixin is a wrapper around two other mixins, `hu-pseudo-generic-classes()` a
     display: block;
   }
 
-  .@mq-480:before--display:flex::before {
+  .@mq-480::before--display:flex::before {
     display: flex;
   }
 
@@ -1493,7 +1508,7 @@ Generates the `base`, `focus`, `hover`, `hocus`, `state`, `reduced-motion` and `
 }
 
 /* ->
-.&:before--hu-display:block::before {
+.&::before--hu-display:block::before {
   display: block;
 }
 
@@ -1502,7 +1517,7 @@ Generates the `base`, `focus`, `hover`, `hocus`, `state`, `reduced-motion` and `
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .@reduced-motion:before--hu-display:block::before.@reduced-motion:before--hu-display:block::before.@reduced-motion:before--hu-display:block::before {
+  .@reduced-motion::before--hu-display:block::before.@reduced-motion::before--hu-display:block::before.@reduced-motion::before--hu-display:block::before {
     display: block;
   }
 }
@@ -1529,7 +1544,7 @@ Generates the responsive `base` and `state` module styles for a pseudo selector 
 }
 
 /* ->
-.@mq-medium:before--display:block::before {
+.@mq-medium::before--display:block::before {
   display: block;
 }
 
@@ -1589,7 +1604,7 @@ The above loop doesn’t generate the responsive classes. If we generated them w
 @if index($icon-size-modules, responsive) {
   // extract $mq-scale and $mq-value variables for each media query
   @each $mq-scale, $mq-value in $hu-media-queries {
-    // call the media-query mixin with $mq-value, which supports media query values as min-h/max-w maps
+    // call the media-query mixin with $mq-value, which supports media query values as min-height/max-width maps
     @include hu-media-query($mq-value) {
       // loop through and extract $type & $value variables from each item in $types
       @each $type, $value in $icon-size-types {
@@ -1667,7 +1682,7 @@ One benefit Hucssley has over other, similar libraries is that there is a define
 @if index($icon-size-modules, responsive) {
   // extract $mq-scale and $mq-value variables for each media query
   @each $mq-scale, $mq-value in $hu-media-queries {
-    // call the media-query mixin with $mq-value, which supports media query values as min-h/max-w maps
+    // call the media-query mixin with $mq-value, which supports media query values as min-height/max-width maps
     @include hu-media-query($mq-value) {
       // loop through and extract $type & $value variables from each item in $types
       @each $type, $value in $icon-size-types {
@@ -1691,23 +1706,23 @@ One benefit Hucssley has over other, similar libraries is that there is a define
 Generates the following:
 
 ```css
-.&:before--icon-size:100::before {
+.&::before--icon-size:100::before {
   height: 1rem;
   width: 1rem;
 }
 
-.&:before--icon-size:200::before {
+.&::before--icon-size:200::before {
   height: 1.5rem;
   width: 1.5rem;
 }
 
 @media (min-width: 30em) {
-  .@mq-480:before--icon-size:100::before {
+  .@mq-480::before--icon-size:100::before {
     height: 1rem;
     width: 1rem;
   }
 
-  .@mq-480:before--icon-size:200::before {
+  .@mq-480::before--icon-size:200::before {
     height: 1.5rem;
     width: 1.5rem;
   }
@@ -1743,7 +1758,7 @@ Similarly, custom parent classes can also easily be generated with the `hu-paren
 @if index($icon-size-modules, responsive) {
   // extract $mq-scale and $mq-value variables for each media query
   @each $mq-scale, $mq-value in $hu-media-queries {
-    // call the media-query mixin with $mq-value, which supports media query values as min-h/max-w maps
+    // call the media-query mixin with $mq-value, which supports media query values as min-height/max-width maps
     @include hu-media-query($mq-value) {
       // loop through and extract $type & $value variables from each item in $types
       @each $type, $value in $icon-size-types {
@@ -2047,7 +2062,7 @@ which produces:
 
 ## Controlling file size
 
-While Hucssley creates almost every possible class you’d ever want to make building UI simple, this comes at a file size cost with the OOTB CSS coming in at a massive 1.3 MB uncompressed. Of course, the nature of Hucssley lends itself very well to gzipping, which brings the OOTB CSS down to 93 KB, which ironically, is still a lot smaller than lots of other “production” CSS in the wild.
+While Hucssley creates almost every possible class you’d ever want to make building UI simple, this comes at a file size cost with the OOTB CSS coming in at a massive 1.3 MB uncompressed. Of course, the nature of Hucssley lends itself very well to gzipping, which brings the OOTB CSS down to 94 KB, which ironically, is still a lot smaller than lots of other “production” CSS in the wild.
 
 But, Hucssley is infinitely customizable, so you can set the variables of modules you’ll never use to `()` so they won’t output, and of course, limiting the amount of colors, media queries, and spacing scales will also help.
 
@@ -2056,7 +2071,7 @@ However, we can do better… and we can do it automatically. By utilizing [Purge
 ```js
 extractor: class {
   static extract(content) {
-    return content.match(/[A-Za-z0-9-_&:@<>\/]+/g) || [];
+    return content.match(/[A-Za-z0-9-_&:@%\.<>\(\)\/]+/g) || [];
   }
 }
 ```
